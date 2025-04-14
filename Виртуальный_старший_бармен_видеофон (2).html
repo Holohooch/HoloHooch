@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>holohooch - голограмма барного искусства</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#1D480B',secondary:'#9B4DCA'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&amp;family=Lora:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+:root {
+--primary-dark: #121212;
+--text-dark: #f5f5f5;
+--primary-light: #ffffff;
+--text-light: #1f2937;
+}
+body {
+background-color: var(--primary-dark);
+color: var(--text-dark);
+font-family: 'Unbounded', sans-serif;
+transition: background-color 0.3s ease, color 0.3s ease;
+}
+body.light-theme {
+background-color: var(--primary-light);
+color: var(--text-light);
+}
+.theme-toggle {
+position: fixed;
+right: 20px;
+bottom: 20px;
+z-index: 1000;
+background: rgba(29, 72, 11, 0.2);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(155, 77, 202, 0.3);
+padding: 10px;
+border-radius: 50%;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+.theme-toggle:hover {
+transform: scale(1.1);
+}
+.cocktail-of-day {
+position: fixed;
+left: 20px;
+bottom: 20px;
+z-index: 1000;
+background: rgba(29, 72, 11, 0.2);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(155, 77, 202, 0.3);
+padding: 20px;
+border-radius: 12px;
+width: 300px;
+transition: all 0.3s ease;
+}
+.cocktail-of-day:hover {
+transform: translateY(-5px);
+}
+.countdown {
+font-family: 'Orbitron', sans-serif;
+color: #9B4DCA;
+font-size: 1.2em;
+margin-top: 10px;
+}
+.ar-demo {
+position: relative;
+overflow: hidden;
+border-radius: 12px;
+background: rgba(29, 72, 11, 0.2);
+border: 1px solid rgba(155, 77, 202, 0.3);
+padding: 20px;
+margin-top: 20px;
+}
+.ar-demo::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: linear-gradient(45deg, rgba(29, 72, 11, 0.2), rgba(155, 77, 202, 0.2));
+z-index: -1;
+}
+h1, h2, h3, h4, h5, h6 {
+font-family: 'Orbitron', sans-serif;
+}
+.cocktail-gradient-text {
+background: linear-gradient(90deg,
+#FF6B6B, /* Strawberry Daiquiri */
+#4ECDC4, /* Blue Lagoon */
+#FFD93D, /* Tequila Sunrise */
+#FF8C42, /* Mai Tai */
+#98FB98, /* Mint Julep */
+#DDA0DD  /* Purple Rain */
+);
+background-size: 300% 300%;
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+animation: cocktailGradient 8s infinite;
+}
+@keyframes cocktailGradient {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+.nav-link {
+position: relative;
+}
+.nav-link::after {
+content: '';
+position: absolute;
+width: 0;
+height: 2px;
+bottom: -4px;
+left: 0;
+background: linear-gradient(90deg, #1D480B, #9B4DCA);
+transition: width 0.3s ease;
+}
+.nav-link:hover::after {
+width: 100%;
+}
+.hero {
+background-image: url('https://readdy.ai/api/search-image?query=Dark%2520elegant%2520bar%2520counter%2520with%2520blurred%2520cocktails%2520in%2520the%2520background%2C%2520vibrant%2520neon%2520purple%2520and%2520green%2520lights%2520reflecting%2520off%2520glass%2520surfaces%2C%2520creating%2520a%2520mysterious%2520and%2520luxurious%2520atmosphere%2C%2520smoke%2520effects%2520and%2520light%2520beams%2520cutting%2520through%2520the%2520darkness%2C%2520high-end%2520premium%2520feel&width=1920&height=1080&seq=1&orientation=landscape');
+background-size: cover;
+background-position: center;
+position: relative;
+}
+.hero::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: rgba(0, 0, 0, 0.5);
+}
+.neon-button {
+position: relative;
+overflow: hidden;
+transition: all 0.3s ease;
+}
+.neon-button::before {
+content: '';
+position: absolute;
+top: -2px;
+left: -2px;
+right: -2px;
+bottom: -2px;
+background: linear-gradient(45deg, #1D480B, #9B4DCA, #1D480B);
+z-index: -1;
+animation: rotate 3s linear infinite;
+opacity: 0;
+transition: opacity 0.3s ease;
+border-radius: 10px;
+}
+.neon-button:hover::before {
+opacity: 1;
+}
+@keyframes rotate {
+0% {
+background-position: 0% 50%;
+}
+100% {
+background-position: 100% 50%;
+}
+}
+.service-card {
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+overflow: hidden;
+}
+.service-card:hover {
+transform: translateY(-10px);
+box-shadow: 0 15px 30px rgba(155, 77, 202, 0.2);
+}
+.service-card-content {
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.5s ease;
+}
+.service-card:hover .service-card-content {
+max-height: 200px;
+}
+.cocktail-card {
+overflow: hidden;
+position: relative;
+}
+.cocktail-card::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%);
+z-index: 1;
+}
+.cocktail-card img {
+transition: transform 0.5s ease;
+}
+.cocktail-card:hover img {
+transform: scale(1.05);
+}
+.cocktail-info {
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+padding: 20px;
+z-index: 2;
+transform: translateY(30px);
+opacity: 0;
+transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.cocktail-card:hover .cocktail-info {
+transform: translateY(0);
+opacity: 1;
+}
+.pricing-card {
+transition: transform 0.3s ease;
+position: relative;
+overflow: hidden;
+}
+.pricing-card::before {
+content: '';
+position: absolute;
+top: -2px;
+left: -2px;
+right: -2px;
+bottom: -2px;
+background: linear-gradient(45deg, #1D480B, #9B4DCA);
+z-index: -1;
+opacity: 0;
+transition: opacity 0.3s ease;
+border-radius: 12px;
+}
+.pricing-card:hover {
+transform: translateY(-10px);
+}
+.pricing-card:hover::before {
+opacity: 1;
+}
+.testimonial-card {
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.testimonial-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 10px 20px rgba(155, 77, 202, 0.2);
+}
+.header-container {
+background: rgba(18, 18, 18, 0.8);
+backdrop-filter: blur(5px);
+transition: background 0.3s ease;
+}
+.header-scrolled {
+background: rgba(18, 18, 18, 0.95);
+}
+input[type="range"] {
+-webkit-appearance: none;
+width: 100%;
+height: 8px;
+background: #2d2d2d;
+border-radius: 5px;
+outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+-webkit-appearance: none;
+width: 20px;
+height: 20px;
+background: linear-gradient(45deg, #1D480B, #9B4DCA);
+border-radius: 50%;
+cursor: pointer;
+}
+.custom-checkbox {
+position: relative;
+padding-left: 30px;
+cursor: pointer;
+user-select: none;
+}
+.custom-checkbox input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
+}
+.checkmark {
+position: absolute;
+top: 0;
+left: 0;
+height: 20px;
+width: 20px;
+background-color: #2d2d2d;
+border-radius: 4px;
+}
+.custom-checkbox:hover input ~ .checkmark {
+background-color: #3d3d3d;
+}
+.custom-checkbox input:checked ~ .checkmark {
+background: linear-gradient(45deg, #1D480B, #9B4DCA);
+}
+.checkmark:after {
+content: "";
+position: absolute;
+display: none;
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+display: block;
+}
+.custom-checkbox .checkmark:after {
+left: 7px;
+top: 3px;
+width: 6px;
+height: 12px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.switch {
+position: relative;
+display: inline-block;
+width: 60px;
+height: 30px;
+}
+.switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #2d2d2d;
+transition: .4s;
+border-radius: 34px;
+}
+.slider:before {
+position: absolute;
+content: "";
+height: 22px;
+width: 22px;
+left: 4px;
+bottom: 4px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .slider {
+background: linear-gradient(45deg, #1D480B, #9B4DCA);
+}
+input:checked + .slider:before {
+transform: translateX(30px);
+}
+.filter-button {
+transition: all 0.3s ease;
+position: relative;
+}
+.filter-button.active {
+background: linear-gradient(45deg, #1D480B, #9B4DCA);
+color: white;
+}
+.calculator-result {
+background: linear-gradient(45deg, rgba(29, 72, 11, 0.2), rgba(155, 77, 202, 0.2));
+border: 1px solid rgba(155, 77, 202, 0.3);
+}
+
+/* Анимация логотипа */
+.logo-animated {
+  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(135deg, #00fff7, #8e2de2, #4a00e0, #00fff7);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shimmer 8s ease infinite;
+  transform: perspective(1000px) rotateX(10deg) rotateY(-5deg);
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Стили для ссылок */
+.nav-item {
+  position: relative;
+  transition: all 0.3s ease;
+}
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #1D480B, #9B4DCA);
+  transition: width 0.3s ease;
+}
+.nav-item:hover::after {
+  width: 100%;
+}
+.nav-item:hover {
+  color: #9B4DCA;
+  transform: scale(1.05);
+}
+.nav-item:active {
+  transform: scale(0.95);
+  color: #4ECDC4;
+}
+
+section {
+  margin-bottom: 0;
+}
+
+.parallax-section {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  z-index: 1;
+}
+
+#bg-video {
+  filter: brightness(0.35) contrast(1.1);
+}
+</style>
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet"/><script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script><script>
+document.addEventListener("DOMContentLoaded", function() {
+  AOS.init({
+    duration: 800,
+    once: true
+  });
+});
+</script><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&amp;family=Unbounded:wght@400;700&amp;display=swap" rel="stylesheet"/></head>
+<body>
+<video autoplay="" class="fixed top-0 left-0 w-full h-full object-cover z-[-1]" id="bg-video" loop="" muted="">
+<source src="https://cdn.coverr.co/videos/coverr-a-bartender-making-a-cocktail-8187/1080p.mp4" type="video/mp4"/>
+  Your browser does not support the video tag.
+</video>
+
+<header class="w-full fixed top-0 left-0 z-50 bg-black bg-opacity-80 backdrop-blur-md border-b border-gray-800 shadow-lg">
+<div class="flex items-center justify-between w-full px-8 py-4 max-w-screen-2xl mx-auto">
+<!-- Левая часть -->
+<nav class="flex gap-6 text-white text-sm font-semibold">
+<a class="nav-item text-lg font-bold tracking-wide" href="#services">Услуги</a>
+<a class="nav-item text-lg font-bold tracking-wide" href="#bartender">Бармен</a>
+<a class="nav-item text-lg font-bold tracking-wide" href="#cocktails">Коктейли</a>
+</nav>
+<!-- Центр: логотип -->
+<div class="logo-animated text-4xl font-bold cocktail-gradient-text" style="font-family: 'Orbitron', sans-serif; font-size: 3rem;">holohooch</div>
+<!-- Правая часть -->
+<nav class="flex gap-6 text-white text-sm font-semibold">
+<a class="nav-item text-lg font-bold tracking-wide" href="#testimonials">Отзывы</a>
+<a class="nav-item text-lg font-bold tracking-wide" href="#pricing">Подписка</a>
+<a class="nav-item text-lg font-bold tracking-wide" href="#contact">Контакты</a>
+</nav>
+</div>
+</header>
+<audio id="barAmbience" loop="">
+<source src="https://public.readdy.ai/gen_page/Bloodsuckers_Dead_Players.mp3" type="audio/mpeg"/>
+</audio>
+<button class="fixed bottom-20 right-20 z-50 bg-primary bg-opacity-20 backdrop-blur-md p-3 rounded-full cursor-pointer hover:bg-opacity-30 transition-all duration-300" id="audioToggle">
+<i class="ri-volume-mute-line text-white text-xl" id="audioIcon"></i>
+</button>
+<div class="cocktail-of-day">
+<h4 class="text-xl font-bold mb-2">Коктейль дня</h4>
+<div class="flex items-center gap-4">
+<img alt="Коктейль дня" class="w-20 h-20 rounded-lg object-cover" id="dailyCocktailImage" src="https://readdy.ai/api/search-image?query=Elegant%20cocktail%20with%20emerald%20green%20liquid&amp;width=400&amp;height=400"/>
+<div>
+<h5 class="font-bold" id="dailyCocktailName">Изумрудный бриз</h5>
+<p class="text-sm text-gray-400" id="dailyCocktailDesc">Освежающий микс джина, базилика, огурца и лайма</p>
+</div>
+</div>
+<div class="countdown text-center" id="countdown"></div>
+</div>
+<!-- Header -->
+<!-- Hero Section -->
+<section class="hero min-h-screen flex items-center relative" data-aos="fade-up">
+<div class="container mx-auto px-4 py-20 relative z-10">
+<div class="max-w-3xl">
+<h1 class="text-7xl md:text-9xl font-bold mb-6 text-white leading-tight font-['Pacifico'] cocktail-gradient-text">holohooch</h1>
+<h2 class="text-5xl md:text-7xl font-bold mb-6 text-white leading-tight" data-aos="fade-down">Голограмма барного искусства</h2>
+<p class="text-xl md:text-2xl mb-8 text-gray-200">Революционная технология виртуального бармена для вашего заведения. Удивите гостей уникальным коктейльным опытом.</p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="neon-button bg-primary text-white px-8 py-4 font-medium text-lg !rounded-button whitespace-nowrap inline-block">Узнать больше</button>
+<button class="bg-transparent border-2 border-white text-white px-8 py-4 font-medium text-lg hover:bg-white hover:text-gray-900 transition-all !rounded-button whitespace-nowrap">Связь с нами</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Benefits Section -->
+<section class="" data-aos="fade-up">
+<div class="container mx-auto px-4 relative">
+<div class="absolute inset-0 bg-black bg-opacity-80" style="background-image: url('https://readdy.ai/api/search-image?query=Dark%2520elegant%2520bar%2520counter%2520with%2520premium%2520spirits%2520display%2C%2520soft%2520neon%2520lighting%2520in%2520purple%2520and%2520green%2C%2520blurred%2520bottles%2520background%2C%2520luxury%2520atmosphere%2C%2520professional%2520lighting%2C%2520high-end%2520design&amp;width=1920&amp;height=1080&amp;seq=34&amp;orientation=landscape'); background-size: cover; background-position: center; background-blend-mode: multiply;"></div>
+<div class="relative z-10">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold mb-4" data-aos="fade-down">holohooch — ваш партнер в мире коктейлей</h2>
+<p class="text-xl text-gray-400 max-w-3xl mx-auto">Мы адаптируемся под ваш формат, чтобы ваши гости возвращались снова и снова</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="bg-gray-800 rounded-lg p-8 hover:transform hover:scale-105 transition-transform duration-300">
+<div class="w-16 h-16 flex items-center justify-center mb-6 bg-gradient-to-r from-primary to-secondary rounded-full">
+<i class="ri-store-2-line ri-xl text-white"></i>
+</div>
+<h3 class="text-2xl font-bold mb-4">Для баров</h3>
+<p class="text-gray-400">Увеличьте выручку с помощью уникальных коктейлей и интерактивных решений.</p>
+<img alt="Бар" class="w-full h-48 object-cover rounded-lg mt-6" src="https://readdy.ai/api/search-image?query=Modern%2520elegant%2520bar%2520counter%2520with%2520premium%2520spirits%2520display%2C%2520soft%2520neon%2520lighting%2C%2520professional%2520bartender%2520mixing%2520cocktails%2C%2520luxury%2520atmosphere%2C%2520dark%2520moody%2520setting&amp;width=400&amp;height=300&amp;seq=13&amp;orientation=landscape"/>
+</div>
+<div class="bg-gray-800 rounded-lg p-8 hover:transform hover:scale-105 transition-transform duration-300">
+<div class="w-16 h-16 flex items-center justify-center mb-6 bg-gradient-to-r from-primary to-secondary rounded-full">
+<i class="ri-restaurant-line ri-xl text-white"></i>
+</div>
+<h3 class="text-2xl font-bold mb-4">Для ресторанов</h3>
+<p class="text-gray-400">Добавьте изюминку в меню с нашими авторскими рецептами.</p>
+<img alt="Ресторан" class="w-full h-48 object-cover rounded-lg mt-6" src="https://readdy.ai/api/search-image?query=Upscale%2520restaurant%2520interior%2520with%2520elegant%2520table%2520settings%2C%2520signature%2520cocktail%2520being%2520served%2C%2520ambient%2520lighting%2C%2520sophisticated%2520atmosphere&amp;width=400&amp;height=300&amp;seq=14&amp;orientation=landscape"/>
+</div>
+<div class="bg-gray-800 rounded-lg p-8 hover:transform hover:scale-105 transition-transform duration-300">
+<div class="w-16 h-16 flex items-center justify-center mb-6 bg-gradient-to-r from-primary to-secondary rounded-full">
+<i class="ri-music-2-line ri-xl text-white"></i>
+</div>
+<h3 class="text-2xl font-bold mb-4">Для клубов</h3>
+<p class="text-gray-400">Создайте wow-эффект с виртуальным барменом и яркими коктейльными шоу.</p>
+<img alt="Клуб" class="w-full h-48 object-cover rounded-lg mt-6" src="https://readdy.ai/api/search-image?query=Nightclub%2520bar%2520with%2520holographic%2520displays%2C%2520vibrant%2520neon%2520lights%2C%2520high-tech%2520cocktail%2520preparation%2C%2520energetic%2520atmosphere%2C%2520premium%2520setting&amp;width=400&amp;height=300&amp;seq=15&amp;orientation=landscape"/>
+</div>
+<div class="bg-gray-800 rounded-lg p-8 hover:transform hover:scale-105 transition-transform duration-300">
+<div class="w-16 h-16 flex items-center justify-center mb-6 bg-gradient-to-r from-primary to-secondary rounded-full">
+<i class="ri-coffee-line ri-xl text-white"></i>
+</div>
+<h3 class="text-2xl font-bold mb-4">Для кофеен</h3>
+<p class="text-gray-400">Освежите ассортимент с нашими безалкогольными миксами.</p>
+<img alt="Кофейня" class="w-full h-48 object-cover rounded-lg mt-6" src="https://readdy.ai/api/search-image?query=Modern%2520coffee%2520shop%2520interior%2520with%2520specialty%2520drinks%2520display%2C%2520barista%2520preparing%2520creative%2520non-alcoholic%2520beverages%2C%2520cozy%2520atmosphere%2C%2520artistic%2520presentation&amp;width=400&amp;height=300&amp;seq=16&amp;orientation=landscape"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Services Section -->
+<section class="" data-aos="fade-up" id="services">
+<div class="container mx-auto px-4 relative">
+<div class="absolute inset-0 bg-black bg-opacity-80" style="background-image: url('https://readdy.ai/api/search-image?query=Dark%2520elegant%2520bar%2520counter%2520with%2520premium%2520spirits%2520display%2C%2520soft%2520neon%2520lighting%2520in%2520purple%2520and%2520green%2C%2520blurred%2520bottles%2520background%2C%2520luxury%2520atmosphere%2C%2520professional%2520lighting%2C%2520high-end%2520design&amp;width=1920&amp;height=1080&amp;seq=34&amp;orientation=landscape'); background-size: cover; background-position: center; background-blend-mode: multiply;"></div>
+<div class="relative z-10">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold mb-4" data-aos="fade-down">Наши премиум услуги</h2>
+<p class="text-xl text-gray-400 max-w-3xl mx-auto">Создайте свой идеальный бар с holohooch</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="service-card bg-gray-800 rounded-lg overflow-hidden hover:shadow-[0_0_30px_rgba(155,77,202,0.3)] transition-all duration-300" data-aos="fade-up">
+<div class="p-6">
+<div class="w-16 h-16 flex items-center justify-center mb-6 bg-gradient-to-r from-primary to-secondary rounded-full">
+<i class="ri-robot-line ri-xl text-white"></i>
+</div>
+<h3 class="text-2xl font-bold mb-3">Консультации Виртуального Бармена</h3>
+<p class="text-gray-400 mb-4">Персональные рекомендации и советы по приготовлению коктейлей от AI-бармена.</p>
+<div class="service-card-content pt-4 border-t border-gray-700">
+<p class="text-gray-400">Наш виртуальный бармен доступен 24/7 и готов помочь с выбором ингредиентов, техникой приготовления и подачей напитков.</p>
+<img alt="Виртуальный бармен" class="w-full h-48 object-cover rounded-lg mt-6" src="https://readdy.ai/api/search-image?query=AI%2520virtual%2520bartender%2520interface%2520with%2520holographic%2520display%2C%2520dark%2520elegant%2520setting%2C%2520professional%2520bar%2520background&amp;width=400&amp;height=300&amp;seq=23&amp;orientation=landscape"/>
+</div>
+</div>
+</div>
+<div class="service-card bg-gray-800 rounded-lg overflow-hidden hover:shadow-[0_0_30px_rgba(155,77,202,0.3)] transition-all duration-300" data-aos="fade-up">
+<div class="p-6">
+<div class="w-16 h-16 flex items-center justify-center mb-6 bg-gradient-to-r from-primary to-secondary rounded-full">
+<i class="ri-book-open-line ri-xl text-white"></i>
+</div>
+<h3 class="text-2xl font-bold mb-3">Интерактивные Уроки Миксологии</h3>
+<p class="text-gray-400 mb-4">Онлайн-курсы и мастер-классы по искусству создания коктейлей.</p>
+<div class="service-card-content pt-4 border-t border-gray-700">
+<p class="text-gray-400">Профессиональные видеоуроки, интерактивные задания и практические занятия для развития навыков миксологии.</p>
+<img alt="Уроки миксологии" class="w-full h-48 object-cover rounded-lg mt-6" src="https://readdy.ai/api/search-image?query=Mixology%2520class%2520in%2520progress%2C%2520professional%2520bartender%2520teaching%2C%2520dark%2520elegant%2520bar%2520setting&amp;width=400&amp;height=300&amp;seq=24&amp;orientation=landscape"/>
+</div>
+</div>
+</div>
+<div class="service-card bg-gray-800 rounded-lg overflow-hidden hover:shadow-[0_0_30px_rgba(155,77,202,0.3)] transition-all duration-300" data-aos="fade-up">
+<div class="p-6">
+<div class="w-16 h-16 flex items-center justify-center mb-6 bg-gradient-to-r from-primary to-secondary rounded-full">
+<i class="ri-database-2-line ri-xl text-white"></i>
+</div>
+<h3 class="text-2xl font-bold mb-3">База Рецептов</h3>
+<p class="text-gray-400 mb-4">Обширная коллекция проверенных рецептов коктейлей со всего мира.</p>
+<div class="service-card-content pt-4 border-t border-gray-700">
+<p class="text-gray-400">Доступ к тысячам рецептов, включая классические коктейли и современные миксы, с подробными инструкциями и советами.</p>
+<img alt="База рецептов" class="w-full h-48 object-cover rounded-lg mt-6" src="https://readdy.ai/api/search-image?query=Digital%2520cocktail%2520recipe%2520database%2520interface%2C%2520elegant%2520dark%2520theme%2C%2520professional%2520presentation&amp;width=400&amp;height=300&amp;seq=25&amp;orientation=landscape"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Virtual Bartender Section -->
+<section class="px-6 text-white py-32 parallax-section" data-aos="fade-up" id="bartender" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1598899134739-24c46f58e0c4');">
+<div class="container mx-auto px-4 relative">
+<div class="absolute inset-0 bg-black bg-opacity-70"></div>
+<div class="relative z-10">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold mb-4" data-aos="fade-down">Виртуальный бармен</h2>
+<p class="text-xl text-gray-300 max-w-3xl mx-auto">Ваш коктейль — ваше настроение</p>
+</div>
+<div class="grid grid-cols-1 gap-12 items-center max-w-2xl mx-auto">
+<div class="bg-gray-900 bg-opacity-80 p-8 rounded-lg w-full">
+<h3 class="text-2xl font-bold mb-6 text-center">Создайте свой коктейль</h3>
+<div class="mb-6">
+<label class="block text-gray-300 mb-2">Выберите базовый алкоголь</label>
+<div class="grid grid-cols-3 gap-3">
+<button class="bg-gray-800 hover:bg-primary hover:shadow-[0_0_20px_rgba(155,77,202,0.3)] py-3 px-4 rounded text-center text-sm transition-all duration-300 !rounded-button whitespace-nowrap" data-alcohol="true">Водка</button>
+<button class="bg-gray-800 hover:bg-primary hover:shadow-[0_0_20px_rgba(155,77,202,0.3)] py-3 px-4 rounded text-center text-sm transition-all duration-300 !rounded-button whitespace-nowrap" data-alcohol="true">Джин</button>
+<button class="bg-gray-800 hover:bg-primary hover:shadow-[0_0_20px_rgba(155,77,202,0.3)] py-3 px-4 rounded text-center text-sm transition-all duration-300 !rounded-button whitespace-nowrap" data-alcohol="true">Ром</button>
+<button class="bg-gray-800 hover:bg-primary hover:shadow-[0_0_20px_rgba(155,77,202,0.3)] py-3 px-4 rounded text-center text-sm transition-all duration-300 !rounded-button whitespace-nowrap" data-alcohol="true">Текила</button>
+<button class="bg-gray-800 hover:bg-primary hover:shadow-[0_0_20px_rgba(155,77,202,0.3)] py-3 px-4 rounded text-center text-sm transition-all duration-300 !rounded-button whitespace-nowrap" data-alcohol="true">Виски</button>
+<button class="bg-gray-800 hover:bg-primary hover:shadow-[0_0_20px_rgba(155,77,202,0.3)] py-3 px-4 rounded text-center text-sm transition-all duration-300 !rounded-button whitespace-nowrap" data-alcohol="true">Без алкоголя</button>
+</div>
+</div>
+<div class="mb-6">
+<label class="block text-gray-300 mb-2">Вкусовой профиль</label>
+<div class="grid grid-cols-2 gap-3">
+<button class="bg-gray-800 hover:bg-primary hover:shadow-[0_0_20px_rgba(155,77,202,0.3)] py-3 px-4 rounded text-center text-sm transition-all duration-300 !rounded-button whitespace-nowrap" data-flavor="true">Сладкий</button>
+<button class="bg-gray-800 hover:bg-primary hover:shadow-[0_0_20px_rgba(155,77,202,0.3)] py-3 px-4 rounded text-center text-sm transition-all duration-300 !rounded-button whitespace-nowrap" data-flavor="true">Кислый</button>
+<button class="bg-gray-800 hover:bg-primary hover:shadow-[0_0_20px_rgba(155,77,202,0.3)] py-3 px-4 rounded text-center text-sm transition-all duration-300 !rounded-button whitespace-nowrap" data-flavor="true">Горький</button>
+<button class="bg-gray-800 hover:bg-primary hover:shadow-[0_0_20px_rgba(155,77,202,0.3)] py-3 px-4 rounded text-center text-sm transition-all duration-300 !rounded-button whitespace-nowrap" data-flavor="true">Пряный</button>
+</div>
+</div>
+<div class="mb-6">
+<label class="block text-gray-300 mb-2">Крепость</label>
+<input class="w-full" max="10" min="1" type="range" value="5"/>
+<div class="flex justify-between text-sm text-gray-400 mt-1">
+<span>Лёгкий</span>
+<span>Средний</span>
+<span>Крепкий</span>
+</div>
+</div>
+<div class="text-center mt-8">
+<button class="neon-button bg-primary text-white px-8 py-4 font-medium text-lg hover:shadow-[0_0_30px_rgba(155,77,202,0.5)] transition-all duration-300 !rounded-button whitespace-nowrap">Создать коктейль</button>
+</div>
+<div class="generated-cocktail mt-8 p-6 bg-gray-800 rounded-lg hidden text-center" id="generatedCocktail">
+<h3 class="text-2xl font-bold mb-4 text-white" id="cocktailTitle">Ваш коктейль:</h3>
+<img class="w-full h-64 object-cover rounded mb-4 mx-auto" id="cocktailImage" src=""/>
+<p class="text-gray-300" id="cocktailDescription"></p>
+<div class="flex justify-center gap-4 mt-4 hidden" id="ingredientIcons">
+</div>
+</div>
+<div class="text-center mt-4">
+<button class="neon-button bg-secondary text-white px-8 py-4 font-medium text-lg hover:shadow-[0_0_30px_rgba(155,77,202,0.5)] transition-all duration-300 !rounded-button whitespace-nowrap" id="luckyButton">Мне повезёт!</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Cocktails Section -->
+<section class="px-6 text-white relative py-32 parallax-section" data-aos="fade-up" id="cocktails" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1589712236641-c612d1f75b6e');">
+<div class="container mx-auto px-4 relative">
+<div class="absolute inset-0 bg-black bg-opacity-80" style="background-image: url('https://readdy.ai/api/search-image?query=Dark%2520elegant%2520bar%2520counter%2520with%2520premium%2520spirits%2520display%2C%2520soft%2520neon%2520lighting%2520in%2520purple%2520and%2520green%2C%2520blurred%2520bottles%2520background%2C%2520luxury%2520atmosphere%2C%2520professional%2520lighting%2C%2520high-end%2520design&amp;width=1920&amp;height=1080&amp;seq=34&amp;orientation=landscape'); background-size: cover; background-position: center; background-blend-mode: multiply;"></div>
+<div class="relative z-10">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold mb-4" data-aos="fade-down">Наши фирменные коктейли</h2>
+<p class="text-xl text-gray-400 max-w-3xl mx-auto">Вкус, который запоминается</p>
+</div>
+<div class="flex justify-center mb-10">
+<div class="inline-flex bg-gray-800 p-1 rounded-full">
+<button class="filter-button active px-6 py-2 rounded-full text-sm font-medium !rounded-full whitespace-nowrap">Все</button>
+<button class="filter-button px-6 py-2 rounded-full text-sm font-medium !rounded-full whitespace-nowrap">Освежающие</button>
+<button class="filter-button px-6 py-2 rounded-full text-sm font-medium !rounded-full whitespace-nowrap">Пряные</button>
+<button class="filter-button px-6 py-2 rounded-full text-sm font-medium !rounded-full whitespace-nowrap">Романтичные</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="cocktail-card rounded-lg overflow-hidden h-80" data-aos="zoom-in">
+<img alt="Изумрудный бриз" class="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110" src="https://readdy.ai/api/search-image?query=Elegant%2520cocktail%2520with%2520emerald%2520green%2520liquid%2C%2520served%2520in%2520a%2520crystal%2520glass%2520with%2520mint%2520leaves%2520and%2520lime%2520garnish%2C%2520dark%2520background%2520with%2520purple%2520neon%2520lights%2C%2520smoke%2520effect%2C%2520premium%2520luxurious%2520atmosphere%2C%2520professional%2520product%2520photography&amp;width=600&amp;height=800&amp;seq=3&amp;orientation=portrait"/>
+<div class="cocktail-info">
+<h3 class="text-xl font-bold mb-2">Изумрудный бриз</h3>
+<p class="text-gray-300 text-sm mb-3">Освежающий микс джина, базилика, огурца и лайма с нотками мяты</p>
+<button class="text-sm text-white bg-primary px-4 py-2 !rounded-button whitespace-nowrap">Рецепт</button>
+</div>
+</div>
+<div class="cocktail-card rounded-lg overflow-hidden h-80" data-aos="zoom-in">
+<img alt="Фиолетовое наваждение" class="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110" src="https://readdy.ai/api/search-image?query=Luxurious%2520purple%2520cocktail%2520in%2520a%2520crystal%2520glass%2C%2520with%2520blackberries%2520and%2520lavender%2520garnish%2C%2520smoke%2520effect%2C%2520dark%2520background%2520with%2520green%2520neon%2520accents%2C%2520premium%2520product%2520photography%2C%2520professional%2520lighting%2C%2520high-end%2520bar%2520atmosphere&amp;width=600&amp;height=800&amp;seq=4&amp;orientation=portrait"/>
+<div class="cocktail-info">
+<h3 class="text-xl font-bold mb-2">Фиолетовое наваждение</h3>
+<p class="text-gray-300 text-sm mb-3">Романтичный коктейль с водкой, ликёром черники, лавандовым сиропом и свежими ягодами</p>
+<button class="text-sm text-white bg-primary px-4 py-2 !rounded-button whitespace-nowrap">Рецепт</button>
+</div>
+</div>
+<div class="cocktail-card rounded-lg overflow-hidden h-80" data-aos="zoom-in">
+<img alt="Пряный янтарь" class="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110" src="https://readdy.ai/api/search-image?query=Spicy%2520amber%2520cocktail%2520in%2520a%2520crystal%2520glass%2520with%2520cinnamon%2520stick%2520and%2520star%2520anise%2520garnish%2C%2520smoke%2520effect%2C%2520dark%2520background%2520with%2520green%2520and%2520purple%2520neon%2520accents%2C%2520premium%2520product%2520photography%2C%2520professional%2520lighting%2C%2520high-end%2520bar%2520atmosphere&amp;width=600&amp;height=800&amp;seq=5&amp;orientation=portrait"/>
+<div class="cocktail-info">
+<h3 class="text-xl font-bold mb-2">Пряный янтарь</h3>
+<p class="text-gray-300 text-sm mb-3">Согревающий микс бурбона, имбирного сиропа, корицы и бадьяна с апельсиновой цедрой</p>
+<button class="text-sm text-white bg-primary px-4 py-2 !rounded-button whitespace-nowrap">Рецепт</button>
+</div>
+</div>
+<div class="cocktail-card rounded-lg overflow-hidden h-80" data-aos="zoom-in">
+<img alt="Морской бриз" class="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110" src="https://readdy.ai/api/search-image?query=Refreshing%2520blue%2520cocktail%2520in%2520a%2520crystal%2520glass%2520with%2520citrus%2520slices%2520and%2520rosemary%2520garnish%2C%2520ice%2520cubes%2C%2520condensation%2520on%2520glass%2C%2520dark%2520background%2520with%2520purple%2520neon%2520accents%2C%2520premium%2520product%2520photography%2C%2520professional%2520lighting%2C%2520high-end%2520bar%2520atmosphere&amp;width=600&amp;height=800&amp;seq=6&amp;orientation=portrait"/>
+<div class="cocktail-info">
+<h3 class="text-xl font-bold mb-2">Морской бриз</h3>
+<p class="text-gray-300 text-sm mb-3">Освежающий коктейль с водкой, голубым кюрасао, свежим лимоном и розмарином</p>
+<button class="text-sm text-white bg-primary px-4 py-2 !rounded-button whitespace-nowrap">Рецепт</button>
+</div>
+</div>
+<div class="cocktail-card rounded-lg overflow-hidden h-80" data-aos="zoom-in">
+<img alt="Алая роза" class="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110" src="https://readdy.ai/api/search-image?query=Romantic%2520red%2520cocktail%2520in%2520a%2520crystal%2520glass%2520with%2520rose%2520petals%2520and%2520raspberry%2520garnish%2C%2520smoke%2520effect%2C%2520dark%2520background%2520with%2520green%2520neon%2520accents%2C%2520premium%2520product%2520photography%2C%2520professional%2520lighting%2C%2520high-end%2520bar%2520atmosphere&amp;width=600&amp;height=800&amp;seq=7&amp;orientation=portrait"/>
+<div class="cocktail-info">
+<h3 class="text-xl font-bold mb-2">Алая роза</h3>
+<p class="text-gray-300 text-sm mb-3">Романтичный коктейль с джином, малиновым ликёром, розовым сиропом и лепестками роз</p>
+<button class="text-sm text-white bg-primary px-4 py-2 !rounded-button whitespace-nowrap">Рецепт</button>
+</div>
+</div>
+<div class="cocktail-card rounded-lg overflow-hidden h-80" data-aos="zoom-in">
+<img alt="Золотой дракон" class="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110" src="https://readdy.ai/api/search-image?query=Spicy%2520golden%2520cocktail%2520in%2520a%2520crystal%2520glass%2520with%2520chili%2520pepper%2520and%2520ginger%2520garnish%2C%2520smoke%2520effect%2C%2520dark%2520background%2520with%2520purple%2520neon%2520accents%2C%2520premium%2520product%2520photography%2C%2520professional%2520lighting%2C%2520high-end%2520bar%2520atmosphere&amp;width=600&amp;height=800&amp;seq=8&amp;orientation=portrait"/>
+<div class="cocktail-info">
+<h3 class="text-xl font-bold mb-2">Золотой дракон</h3>
+<p class="text-gray-300 text-sm mb-3">Пряный коктейль с текилой, медовым сиропом, имбирём и перцем чили</p>
+<button class="text-sm text-white bg-primary px-4 py-2 !rounded-button whitespace-nowrap">Рецепт</button>
+</div>
+</div>
+<div class="cocktail-card rounded-lg overflow-hidden h-80 hidden extra-cocktail" data-aos="zoom-in">
+<img class="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110" src="https://readdy.ai/api/search-image?query=Romantic%20purple%20cocktail%20with%20flowers&amp;width=600&amp;height=800"/>
+<div class="cocktail-info">
+<h3 class="text-xl font-bold mb-2">Фиалковый туман</h3>
+<p class="text-gray-300 text-sm mb-3">Коктейль с джином, лавандой и сливками</p>
+<button class="text-sm text-white bg-primary px-4 py-2 !rounded-button whitespace-nowrap">Рецепт</button>
+</div>
+</div>
+</div>
+<div class="mt-16 text-center">
+<button class="neon-button bg-primary text-white px-8 py-4 font-medium text-lg !rounded-button whitespace-nowrap" id="loadMoreCocktails">Загрузить ещё</button>
+<script>
+document.getElementById('loadMoreCocktails').addEventListener('click', function() {
+  document.querySelectorAll('.extra-cocktail').forEach(card => {
+    card.classList.remove('hidden');
+  });
+  this.remove();
+});
+</script>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials Section -->
+<section class="px-6 text-white py-32 parallax-section" data-aos="fade-up" id="testimonials" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1604147706286-456998da7b1f');">
+<div class="container mx-auto px-4 relative">
+<div class="absolute inset-0 bg-black bg-opacity-80" style="background-image: url('https://readdy.ai/api/search-image?query=Dark%2520elegant%2520bar%2520counter%2520with%2520premium%2520spirits%2520display%2C%2520soft%2520neon%2520lighting%2520in%2520purple%2520and%2520green%2C%2520blurred%2520bottles%2520background%2C%2520luxury%2520atmosphere%2C%2520professional%2520lighting%2C%2520high-end%2520design&amp;width=1920&amp;height=1080&amp;seq=34&amp;orientation=landscape'); background-size: cover; background-position: center; background-blend-mode: multiply;"></div>
+<div class="relative z-10">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold mb-4" data-aos="fade-down">Отзывы наших клиентов</h2>
+<p class="text-xl text-gray-400 max-w-3xl mx-auto">Нам доверяют лучшие</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="testimonial-card bg-gray-800 p-8 rounded-lg" data-aos="fade-up">
+<div class="flex items-center mb-6">
+<div class="w-14 h-14 rounded-full overflow-hidden mr-4">
+<img alt="Александр Петров" class="w-full h-full object-cover object-top" src="https://readdy.ai/api/search-image?query=Professional%2520male%2520restaurant%2520owner%2520portrait%2C%2520stylish%2520businessman%2520in%2520his%252040s%2C%2520confident%2520expression%2C%2520neutral%2520background%2C%2520high-quality%2520headshot%2C%2520professional%2520lighting&amp;width=200&amp;height=200&amp;seq=9&amp;orientation=squarish"/>
+</div>
+<div>
+<h4 class="text-lg font-bold">Александр Петров</h4>
+<p class="text-gray-400 text-sm">Владелец ресторана "Гранд"</p>
+</div>
+</div>
+<p class="text-gray-300 mb-6">"Внедрение виртуального бармена от holohooch увеличило средний чек на 20%. Гости приходят специально, чтобы попробовать коктейли, которые они сами создали через интерактивный интерфейс."</p>
+<div class="flex text-yellow-400">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+</div>
+</div>
+<div class="testimonial-card bg-gray-800 p-8 rounded-lg" data-aos="fade-up">
+<div class="flex items-center mb-6">
+<div class="w-14 h-14 rounded-full overflow-hidden mr-4">
+<img alt="Екатерина Соколова" class="w-full h-full object-cover object-top" src="https://readdy.ai/api/search-image?query=Professional%2520female%2520bar%2520manager%2520portrait%2C%2520stylish%2520businesswoman%2520in%2520her%252030s%2C%2520confident%2520expression%2C%2520neutral%2520background%2C%2520high-quality%2520headshot%2C%2520professional%2520lighting&amp;width=200&amp;height=200&amp;seq=10&amp;orientation=squarish"/>
+</div>
+<div>
+<h4 class="text-lg font-bold">Екатерина Соколова</h4>
+<p class="text-gray-400 text-sm">Управляющая баром "Синий лёд"</p>
+</div>
+</div>
+<p class="text-gray-300 mb-6">"Обучение от специалистов holohooch вывело наших барменов на новый уровень. Теперь у нас есть уникальная коктейльная карта, которая стала нашей визитной карточкой. Клиенты в восторге!"</p>
+<div class="flex text-yellow-400">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+</div>
+</div>
+<div class="testimonial-card bg-gray-800 p-8 rounded-lg" data-aos="fade-up">
+<div class="flex items-center mb-6">
+<div class="w-14 h-14 rounded-full overflow-hidden mr-4">
+<img alt="Дмитрий Волков" class="w-full h-full object-cover object-top" src="https://readdy.ai/api/search-image?query=Professional%2520male%2520nightclub%2520owner%2520portrait%2C%2520stylish%2520businessman%2520in%2520his%252030s%2C%2520confident%2520expression%2C%2520neutral%2520background%2C%2520high-quality%2520headshot%2C%2520professional%2520lighting&amp;width=200&amp;height=200&amp;seq=11&amp;orientation=squarish"/>
+</div>
+<div>
+<h4 class="text-lg font-bold">Дмитрий Волков</h4>
+<p class="text-gray-400 text-sm">Владелец ночного клуба "Неон"</p>
+</div>
+</div>
+<p class="text-gray-300 mb-6">"Голографические проекции коктейлей стали хитом нашего клуба. Посетители делают фото и видео, выкладывают в соцсети, что привлекает новых гостей. Инвестиции окупились за 3 месяца."</p>
+<div class="flex text-yellow-400">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-half-fill"></i>
+</div>
+</div>
+</div>
+<div class="mt-16 text-center">
+<button class="bg-transparent border-2 border-white text-white px-8 py-4 font-medium text-lg hover:bg-white hover:text-gray-900 transition-all !rounded-button whitespace-nowrap">Все отзывы</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing Section -->
+<section class="px-6 text-white py-32 parallax-section" data-aos="fade-up" id="pricing" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1580910051073-622a9baed9f3');">
+<div class="container mx-auto px-4 relative">
+<div class="absolute inset-0 bg-black bg-opacity-80" style="background-image: url('https://readdy.ai/api/search-image?query=Dark%2520elegant%2520bar%2520counter%2520with%2520premium%2520spirits%2520display%2C%2520soft%2520neon%2520lighting%2520in%2520purple%2520and%2520green%2C%2520blurred%2520bottles%2520background%2C%2520luxury%2520atmosphere%2C%2520professional%2520lighting%2C%2520high-end%2520design&amp;width=1920&amp;height=1080&amp;seq=34&amp;orientation=landscape'); background-size: cover; background-position: center; background-blend-mode: multiply;"></div>
+<div class="relative z-10">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold mb-4" data-aos="fade-down">Ежемесячная подписка для заведений</h2>
+<p class="text-xl text-gray-400 max-w-3xl mx-auto">Выберите свой коктейльный план</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+<div class="pricing-card bg-gray-800 rounded-lg p-8" data-aos="fade-up">
+<h3 class="text-2xl font-bold mb-2">Стартовый</h3>
+<div class="text-4xl font-bold mb-6">15,000 ₽<span class="text-gray-400 text-base font-normal">/мес</span></div>
+<ul class="space-y-4 mb-8">
+<li class="flex items-start">
+<i class="ri-check-line text-green-400 mr-3 mt-1"></i>
+<span>Доступ к виртуальному бармену</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line text-green-400 mr-3 mt-1"></i>
+<span>Базовая коктейльная карта (20 рецептов)</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line text-green-400 mr-3 mt-1"></i>
+<span>Техническая поддержка 24/7</span>
+</li>
+<li class="flex items-start text-gray-500">
+<i class="ri-close-line mr-3 mt-1"></i>
+<span>Обучение персонала</span>
+</li>
+<li class="flex items-start text-gray-500">
+<i class="ri-close-line mr-3 mt-1"></i>
+<span>Эксклюзивные рецепты</span>
+</li>
+<li class="flex items-start text-gray-500">
+<i class="ri-close-line mr-3 mt-1"></i>
+<span>Аналитика заказов</span>
+</li>
+</ul>
+<button class="w-full bg-primary text-white py-3 font-medium !rounded-button whitespace-nowrap">Попробовать</button>
+</div>
+<div class="pricing-card bg-gray-800 rounded-lg p-8 transform scale-105 relative" data-aos="fade-up">
+<div class="absolute top-0 right-0 bg-primary text-white text-xs font-bold px-4 py-1 rounded-tr-lg rounded-bl-lg">Популярный</div>
+<h3 class="text-2xl font-bold mb-2">Профессиональный</h3>
+<div class="text-4xl font-bold mb-6">35,000 ₽<span class="text-gray-400 text-base font-normal">/мес</span></div>
+<ul class="space-y-4 mb-8">
+<li class="flex items-start">
+<i class="ri-check-line text-green-400 mr-3 mt-1"></i>
+<span>Всё из стартового плана</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line text-green-400 mr-3 mt-1"></i>
+<span>Обучение персонала (2 сессии в месяц)</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line text-green-400 mr-3 mt-1"></i>
+<span>Эксклюзивные рецепты (10 в месяц)</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line text-green-400 mr-3 mt-1"></i>
+<span>Аналитика заказов и предпочтений</span>
+</li>
+<li class="flex items-start text-gray-500">
+<i class="ri-close-line mr-3 mt-1"></i>
+<span>Персональный консультант</span>
+</li>
+<li class="flex items-start text-gray-500">
+<i class="ri-close-line mr-3 mt-1"></i>
+<span>Маркетинговая поддержка</span>
+</li>
+</ul>
+<button class="w-full bg-primary text-white py-3 font-medium !rounded-button whitespace-nowrap">Попробовать</button>
+</div>
+<div class="pricing-card bg-gray-800 rounded-lg p-8" data-aos="fade-up">
+<h3 class="text-2xl font-bold mb-2">Премиум</h3>
+<div class="text-4xl font-bold mb-6">60,000 ₽<span class="text-gray-400 text-base font-normal">/мес</span></div>
+<ul class="space-y-4 mb-8">
+<li class="flex items-start">
+<i class="ri-check-line text-green-400 mr-3 mt-1"></i>
+<span>Всё из профессионального плана</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line text-green-400 mr-3 mt-1"></i>
+<span>Персональный консультант</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line text-green-400 mr-3 mt-1"></i>
+<span>Маркетинговая поддержка</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line text-green-400 mr-3 mt-1"></i>
+<span>Кастомизация интерфейса</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line text-green-400 mr-3 mt-1"></i>
+<span>Ежемесячное обновление меню</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line text-green-400 mr-3 mt-1"></i>
+<span>Приоритетная техподдержка</span>
+</li>
+</ul>
+<button class="w-full bg-primary text-white py-3 font-medium !rounded-button whitespace-nowrap">Попробовать</button>
+</div>
+</div>
+<div class="mt-16 bg-gray-800 p-8 rounded-lg max-w-4xl mx-auto">
+<h3 class="text-2xl font-bold mb-6 text-center">Рассчитайте свою экономию</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div>
+<div class="mb-4">
+<label class="block text-gray-300 mb-2">Количество гостей в месяц</label>
+<input class="w-full bg-gray-700 text-white px-4 py-3 rounded border-none" type="number" value="1000"/>
+</div>
+<div class="mb-4">
+<label class="block text-gray-300 mb-2">Средний чек (₽)</label>
+<input class="w-full bg-gray-700 text-white px-4 py-3 rounded border-none" type="number" value="2500"/>
+</div>
+<div class="mb-4">
+<label class="block text-gray-300 mb-2">Выберите план</label>
+<div class="relative">
+<select class="w-full bg-gray-700 text-white px-4 py-3 rounded appearance-none pr-8 border-none">
+<option>Стартовый</option>
+<option selected="">Профессиональный</option>
+<option>Премиум</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+</div>
+<div class="mb-4">
+<label class="custom-checkbox">
+<input checked="" type="checkbox"/>
+<span class="checkmark"></span>
+Включить маркетинговый эффект
+</label>
+</div>
+</div>
+<div class="calculator-result p-6 rounded-lg">
+<h4 class="text-xl font-bold mb-4">Ваша экономия за год:</h4>
+<div class="space-y-4">
+<div class="flex justify-between">
+<span>Увеличение среднего чека:</span>
+<span class="font-bold">+15%</span>
+</div>
+<div class="flex justify-between">
+<span>Увеличение количества гостей:</span>
+<span class="font-bold">+20%</span>
+</div>
+<div class="flex justify-between">
+<span>Экономия на обучении персонала:</span>
+<span class="font-bold">180,000 ₽</span>
+</div>
+<div class="border-t border-gray-700 pt-4 mt-4">
+<div class="flex justify-between text-xl">
+<span>Общая годовая выгода:</span>
+<span class="font-bold text-green-400">1,250,000 ₽</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section class="" data-aos="fade-up" id="contact" style="background-image: url('https://readdy.ai/api/search-image?query=Elegant%2520dark%2520bar%2520interior%2520with%2520purple%2520and%2520green%2520neon%2520lights%2C%2520blurred%2520background%2520with%2520bottles%2520and%2520glasses%2C%2520premium%2520luxury%2520atmosphere%2C%2520professional%2520lighting%2C%2520high-end%2520design&amp;width=1920&amp;height=1080&amp;seq=12&amp;orientation=landscape'); background-size: cover; background-position: center;">
+<div class="container mx-auto px-4 relative">
+<div class="absolute inset-0 bg-black bg-opacity-80" style="background-image: url('https://readdy.ai/api/search-image?query=Dark%2520elegant%2520bar%2520counter%2520with%2520premium%2520spirits%2520display%2C%2520soft%2520neon%2520lighting%2520in%2520purple%2520and%2520green%2C%2520blurred%2520bottles%2520background%2C%2520luxury%2520atmosphere%2C%2520professional%2520lighting%2C%2520high-end%2520design&amp;width=1920&amp;height=1080&amp;seq=34&amp;orientation=landscape'); background-size: cover; background-position: center; background-blend-mode: multiply;"></div>
+<div class="relative z-10">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold mb-4" data-aos="fade-down">Свяжитесь с нами</h2>
+<p class="text-xl text-gray-300 max-w-3xl mx-auto">Готовы поднять ваш бар на новый уровень? Оставьте заявку на консультацию</p>
+</div>
+<div class="max-w-4xl mx-auto bg-gray-900 bg-opacity-90 p-8 rounded-lg">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div>
+<div class="mb-6">
+<label class="block text-gray-300 mb-2">Ваше имя*</label>
+<input class="w-full bg-gray-800 text-white px-4 py-3 rounded border-none" type="text"/>
+</div>
+<div class="mb-6">
+<label class="block text-gray-300 mb-2">Email*</label>
+<input class="w-full bg-gray-800 text-white px-4 py-3 rounded border-none" type="email"/>
+</div>
+<div class="mb-6">
+<label class="block text-gray-300 mb-2">Телефон*</label>
+<input class="w-full bg-gray-800 text-white px-4 py-3 rounded border-none" type="tel"/>
+</div>
+<div class="mb-6">
+<label class="block text-gray-300 mb-2">Название заведения</label>
+<input class="w-full bg-gray-800 text-white px-4 py-3 rounded border-none" type="text"/>
+</div>
+</div>
+<div>
+<div class="mb-6">
+<label class="block text-gray-300 mb-2">Тип заведения</label>
+<div class="relative">
+<select class="w-full bg-gray-800 text-white px-4 py-3 rounded appearance-none pr-8 border-none">
+<option>Ресторан</option>
+<option>Бар</option>
+<option>Ночной клуб</option>
+<option>Кафе</option>
+<option>Другое</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+</div>
+<div class="mb-6">
+<label class="block text-gray-300 mb-2">Сообщение</label>
+<textarea class="w-full bg-gray-800 text-white px-4 py-3 rounded border-none" rows="5"></textarea>
+</div>
+<div class="mb-6">
+<label class="custom-checkbox">
+<input checked="" type="checkbox"/>
+<span class="checkmark"></span>
+Я согласен на обработку персональных данных
+</label>
+</div>
+</div>
+</div>
+<div class="text-center mt-6">
+<button class="neon-button bg-primary text-white px-8 py-4 font-medium text-lg !rounded-button whitespace-nowrap">Отправить заявку</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-gray-900 py-16">
+<div class="container mx-auto px-4 relative">
+<div class="absolute inset-0 bg-black bg-opacity-80" style="background-image: url('https://readdy.ai/api/search-image?query=Dark%2520elegant%2520bar%2520counter%2520with%2520premium%2520spirits%2520display%2C%2520soft%2520neon%2520lighting%2520in%2520purple%2520and%2520green%2C%2520blurred%2520bottles%2520background%2C%2520luxury%2520atmosphere%2C%2520professional%2520lighting%2C%2520high-end%2520design&amp;width=1920&amp;height=1080&amp;seq=34&amp;orientation=landscape'); background-size: cover; background-position: center; background-blend-mode: multiply;"></div>
+<div class="relative z-10">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+<div>
+<h3 class="text-2xl font-['Pacifico'] logo-text mb-6">holohooch</h3>
+<p class="text-gray-400 mb-6">Голограмма барного искусства. Мы создаем инновационные решения для баров и ресторанов, чтобы сделать ваше заведение уникальным.</p>
+<div class="flex space-x-4">
+<a class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-gray-700 transition-colors" href="#">
+<i class="ri-instagram-line text-white"></i>
+</a>
+<a class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-gray-700 transition-colors" href="#">
+<i class="ri-facebook-fill text-white"></i>
+</a>
+<a class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-gray-700 transition-colors" href="#">
+<i class="ri-telegram-fill text-white"></i>
+</a>
+<a class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-gray-700 transition-colors" href="#">
+<i class="ri-youtube-fill text-white"></i>
+</a>
+</div>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-6">Услуги</h4>
+<ul class="space-y-3">
+<li><a class="text-gray-400 hover:text-white transition-colors" href="#">Виртуальный бармен</a></li>
+<li><a class="text-gray-400 hover:text-white transition-colors" href="#">Коктейльные карты</a></li>
+<li><a class="text-gray-400 hover:text-white transition-colors" href="#">Обучение персонала</a></li>
+<li><a class="text-gray-400 hover:text-white transition-colors" href="#">Интерактивные технологии</a></li>
+<li><a class="text-gray-400 hover:text-white transition-colors" href="#">Консультации</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-6">Информация</h4>
+<ul class="space-y-3">
+<li><a class="text-gray-400 hover:text-white transition-colors" href="#">О компании</a></li>
+<li><a class="text-gray-400 hover:text-white transition-colors" href="#">Блог</a></li>
+<li><a class="text-gray-400 hover:text-white transition-colors" href="#">Партнёрам</a></li>
+<li><a class="text-gray-400 hover:text-white transition-colors" href="#">Вакансии</a></li>
+<li><a class="text-gray-400 hover:text-white transition-colors" href="#">Контакты</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-6">Контакты</h4>
+<ul class="space-y-3">
+<li class="flex items-start">
+<i class="ri-map-pin-line mr-3 mt-1 text-primary"></i>
+<span class="text-gray-400">Москва, ул. Барная, 42</span>
+</li>
+<li class="flex items-start">
+<i class="ri-phone-line mr-3 mt-1 text-primary"></i>
+<span class="text-gray-400">+7 (495) 123-45-67</span>
+</li>
+<li class="flex items-start">
+<i class="ri-mail-line mr-3 mt-1 text-primary"></i>
+<span class="text-gray-400">info@holohooch.ru</span>
+</li>
+<li class="flex items-start">
+<i class="ri-time-line mr-3 mt-1 text-primary"></i>
+<span class="text-gray-400">Пн-Пт: 10:00 - 19:00</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="border-t border-gray-800 pt-8">
+<div class="flex flex-col md:flex-row justify-between items-center">
+<p class="text-gray-500 mb-4 md:mb-0">© 2025 holohooch. Все права защищены.</p>
+<div class="flex space-x-6">
+<a class="text-gray-500 hover:text-white transition-colors" href="#">Политика конфиденциальности</a>
+<a class="text-gray-500 hover:text-white transition-colors" href="#">Условия использования</a>
+</div>
+</div>
+</div>
+</div>
+</div></footer>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Audio Control
+const audio = document.getElementById('barAmbience');
+const audioToggle = document.getElementById('audioToggle');
+const audioIcon = document.getElementById('audioIcon');
+let isPlaying = false;
+audioToggle.addEventListener('click', () => {
+if (isPlaying) {
+audio.pause();
+audioIcon.className = 'ri-volume-mute-line text-white text-xl';
+} else {
+audio.play();
+audioIcon.className = 'ri-volume-up-line text-white text-xl';
+}
+isPlaying = !isPlaying;
+});
+// Theme Toggle
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+let isDarkTheme = true;
+themeToggle.addEventListener('click', () => {
+isDarkTheme = !isDarkTheme;
+document.body.classList.toggle('light-theme');
+themeIcon.className = isDarkTheme ? 'ri-sun-line ri-xl' : 'ri-moon-line ri-xl';
+});
+// Cocktail of the Day
+const cocktails = [
+{
+name: 'Изумрудная мечта',
+description: 'Освежающий микс с мятой и лаймом',
+image: 'https://readdy.ai/api/search-image?query=Elegant%2520green%2520cocktail%2520with%2520mint%2520and%2520lime%2C%2520crystal%2520glass%2C%2520dark%2520background&width=200&height=200&seq=20&orientation=squarish'
+},
+{
+name: 'Пурпурный закат',
+description: 'Ягодный коктейль с нотками лаванды',
+image: 'https://readdy.ai/api/search-image?query=Purple%2520cocktail%2520with%2520berries%2520and%2520lavender%2C%2520crystal%2520glass%2C%2520dark%2520background&width=200&height=200&seq=21&orientation=squarish'
+},
+{
+name: 'Золотой рассвет',
+description: 'Цитрусовый микс с медовыми нотками',
+image: 'https://readdy.ai/api/search-image?query=Golden%2520cocktail%2520with%2520citrus%2520and%2520honey%2C%2520crystal%2520glass%2C%2520dark%2520background&width=200&height=200&seq=22&orientation=squarish'
+}
+];
+function updateCocktailOfDay() {
+const today = new Date();
+const cocktailIndex = today.getDate() % cocktails.length;
+const cocktail = cocktails[cocktailIndex];
+document.getElementById('dailyCocktailName').textContent = cocktail.name;
+document.getElementById('dailyCocktailDesc').textContent = cocktail.description;
+document.getElementById('dailyCocktailImage').src = cocktail.image;
+}
+function updateCountdown() {
+const now = new Date();
+const tomorrow = new Date(now);
+tomorrow.setDate(tomorrow.getDate() + 1);
+tomorrow.setHours(0, 0, 0, 0);
+const diff = tomorrow - now;
+const hours = Math.floor(diff / (1000 * 60 * 60));
+const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+document.getElementById('countdown').textContent =
+`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+updateCocktailOfDay();
+updateCountdown();
+setInterval(updateCountdown, 1000);
+// AR Demo
+const arButton = document.querySelector('.ar-demo button');
+arButton.addEventListener('click', () => {
+if (!window.isSecureContext) {
+alert('AR требует защищенного соединения (HTTPS)');
+return;
+}
+if ('xr' in navigator) {
+navigator.xr.isSessionSupported('immersive-ar')
+.then(supported => {
+if (supported) {
+// Start AR session
+// This is a placeholder for actual AR implementation
+alert('AR поддерживается! Запуск демо...');
+} else {
+alert('AR не поддерживается на вашем устройстве');
+}
+});
+} else {
+alert('AR не поддерживается в вашем браузере');
+}
+});
+// Header scroll effect
+const header = document.querySelector('.header-container');
+window.addEventListener('scroll', function() {
+if (window.scrollY > 50) {
+header.classList.add('header-scrolled');
+} else {
+header.classList.remove('header-scrolled');
+}
+});
+// Filter buttons
+const filterButtons = document.querySelectorAll('.filter-button');
+filterButtons.forEach(button => {
+button.addEventListener('click', function() {
+filterButtons.forEach(btn => btn.classList.remove('active'));
+this.classList.add('active');
+});
+});
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Audio Control
+const audio = document.getElementById('barAmbience');
+const audioToggle = document.getElementById('audioToggle');
+const audioIcon = document.getElementById('audioIcon');
+let isPlaying = false;
+audioToggle.addEventListener('click', () => {
+if (isPlaying) {
+audio.pause();
+audioIcon.className = 'ri-volume-mute-line text-white text-xl';
+} else {
+audio.play();
+audioIcon.className = 'ri-volume-up-line text-white text-xl';
+}
+isPlaying = !isPlaying;
+});
+// Custom select styling
+const selects = document.querySelectorAll('select');
+selects.forEach(select => {
+select.addEventListener('change', function() {
+if (this.value) {
+this.style.color = 'white';
+} else {
+this.style.color = '#9ca3af';
+}
+});
+});
+});
+</script>
+<script>
+function playClickSound() {
+  const audio = new Audio('https://files.catbox.moe/mixopx.mp3'); // заменить на нужный трек
+  audio.volume = 0.4;
+  audio.play();
+}
+document.querySelectorAll("button").forEach(btn => {
+  btn.addEventListener("click", playClickSound);
+});
+</script><script>
+const cocktails = [
+  {
+    alcohol: "Водка",
+    flavor: "Сладкий",
+    strength: "1-4",
+    name: "Полярный закат",
+    description: "Лёгкий и фруктовый коктейль с водкой, гренадином и апельсином.",
+    image: "https://readdy.ai/api/search-image?query=vodka+sunset&width=600&height=400",
+    ingredients: ["vodka", "grenadine", "orange"]
+  },
+  {
+    alcohol: "Джин",
+    flavor: "Пряный",
+    strength: "5-7",
+    name: "Изумрудный шторм",
+    description: "Бодрящий микс джина, огурца и лайма с мятной нотой.",
+    image: "https://readdy.ai/api/search-image?query=green+gin+cocktail&width=600&height=400",
+    ingredients: ["gin", "cucumber", "lime", "mint"]
+  },
+  {
+    alcohol: "Текила",
+    flavor: "Кислый",
+    strength: "8-10",
+    name: "Огненное солнце",
+    description: "Кисло-пряный микс с текилой, лаймом и перцем чили.",
+    image: "https://readdy.ai/api/search-image?query=tequila+lime+spicy&width=600&height=400",
+    ingredients: ["tequila", "lime", "chili"]
+  },
+  {
+    alcohol: "Без алкоголя",
+    flavor: "Сладкий",
+    strength: "1-3",
+    name: "Ягодный бриз",
+    description: "Освежающий микс ягод, мяты и газированной воды.",
+    image: "https://readdy.ai/api/search-image?query=berry+mocktail&width=600&height=400",
+    ingredients: ["berries", "mint", "soda"]
+  },
+  {
+    alcohol: "Ром",
+    flavor: "Горький",
+    strength: "7-10",
+    name: "Карибская ночь",
+    description: "Крепкий микс тёмного рома, апельсиновой цедры и специй.",
+    image: "https://readdy.ai/api/search-image?query=dark+rum+cocktail&width=600&height=400",
+    ingredients: ["dark rum", "orange zest", "spices"]
+  }
+];
+
+const ingredientIcons = {
+  vodka: "🍸",
+  gin: "🍃",
+  tequila: "🌶️",
+  rum: "🥃",
+  "dark rum": "🥃",
+  berries: "🫐",
+  mint: "🌿",
+  lime: "🍈",
+  chili: "🌶️",
+  cucumber: "🥒",
+  orange: "🍊",
+  "orange zest": "🍊",
+  grenadine: "❤️",
+  soda: "💧",
+  spices: "🧂"
+};
+
+document.querySelector('.bg-primary').addEventListener('click', function() {
+  const alcohol = document.querySelectorAll('[data-alcohol].active')[0]?.innerText;
+  const flavor = document.querySelectorAll('[data-flavor].active')[0]?.innerText;
+  const strengthValue = document.querySelector('input[type=range]').value;
+
+  const match = cocktails.find(c => 
+    c.alcohol === alcohol &&
+    c.flavor === flavor &&
+    parseInt(strengthValue) >= parseInt(c.strength.split('-')[0]) &&
+    parseInt(strengthValue) <= parseInt(c.strength.split('-')[1])
+  );
+
+  const container = document.getElementById("generatedCocktail");
+  const iconsContainer = document.getElementById("ingredientIcons");
+  iconsContainer.innerHTML = "";
+
+  if (match) {
+    document.getElementById("cocktailTitle").innerText = "Ваш коктейль: " + match.name;
+    document.getElementById("cocktailDescription").innerText = match.description;
+    document.getElementById("cocktailImage").src = match.image;
+    match.ingredients.forEach(ing => {
+      const span = document.createElement("span");
+      span.className = "text-3xl";
+      span.textContent = ingredientIcons[ing] || "❓";
+      iconsContainer.appendChild(span);
+    });
+    iconsContainer.classList.remove("hidden");
+    container.classList.remove("hidden");
+  } else {
+    document.getElementById("cocktailTitle").innerText = "Коктейль не найден";
+    document.getElementById("cocktailDescription").innerText = "Попробуйте изменить параметры.";
+    document.getElementById("cocktailImage").src = "";
+    iconsContainer.innerHTML = "";
+    iconsContainer.classList.add("hidden");
+    container.classList.remove("hidden");
+  }
+});
+
+document.querySelectorAll('[data-alcohol], [data-flavor]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.dataset.alcohol) {
+      document.querySelectorAll('[data-alcohol]').forEach(b => b.classList.remove('active'));
+    } else {
+      document.querySelectorAll('[data-flavor]').forEach(b => b.classList.remove('active'));
+    }
+    btn.classList.add('active');
+  });
+});
+
+// Мне повезёт — случайный коктейль
+document.getElementById('luckyButton').addEventListener('click', function() {
+  const match = cocktails[Math.floor(Math.random() * cocktails.length)];
+
+  const container = document.getElementById("generatedCocktail");
+  const iconsContainer = document.getElementById("ingredientIcons");
+  iconsContainer.innerHTML = "";
+
+  document.getElementById("cocktailTitle").innerText = "Ваш коктейль: " + match.name;
+  document.getElementById("cocktailDescription").innerText = match.description;
+  document.getElementById("cocktailImage").src = match.image;
+  match.ingredients.forEach(ing => {
+    const span = document.createElement("span");
+    span.className = "text-3xl";
+    span.textContent = ingredientIcons[ing] || "❓";
+    iconsContainer.appendChild(span);
+  });
+
+  iconsContainer.classList.remove("hidden");
+  container.classList.remove("hidden");
+});
+</script></body>
+</html>
